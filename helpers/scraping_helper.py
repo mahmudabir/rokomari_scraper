@@ -20,14 +20,7 @@ def find_all_by_tag_name(result_set: ResultSet, name=None) -> list[Tag | Navigab
 
 
 def get_value_of_attributes(tag_list: list[Tag | NavigableString | None], attribute_name=None):
-    values: list[BookCategory] = []
-
-    for tag in tag_list:
-        name = tag.text.strip()
-        url = tag.get(attribute_name)
-        values.append(BookCategory(name, url))
-
-    # values = [BookCategory(tag.text.strip(), tag.get(attribute_name)) for tag in tag_list]
+    values: list[dict] = [{'tag': tag, 'value': tag.get(attribute_name)} for tag in tag_list]
     return values
 
 

@@ -23,7 +23,8 @@ def get_book_categories_url_list() -> list[BookCategory]:
 
     if div_with_class_name:
         a_tags = scraping_helper.find_all_by_tag_name(div_with_class_name, 'a')
-        category_list = scraping_helper.get_value_of_attributes(a_tags, 'href')
+        category_raw_list = scraping_helper.get_value_of_attributes(a_tags, 'href')
+        category_list = get_value_of_attributes(category_raw_list)
         return category_list
     else:
         return []
@@ -40,3 +41,15 @@ def get_book_category_list():
         book_category_list = json_helper.json_string_to_data(book_category_json_string)
 
     return book_category_list
+
+
+def get_value_of_attributes(data_list: list[dict]):
+    values: list[BookCategory] = []
+
+    for item in data_list:
+        name = item.get('tag').text.strip()
+        url = f'{base_url}{item.get('value')}'
+        values.append(BookCategory(name, url))
+
+    # values: list[BookCategory] = [BookCategory(item.get('tag').text.strip(), f'{base_url}{item.get('value')}') for item in data_list]
+    return values
