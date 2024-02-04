@@ -48,7 +48,7 @@ def get_value_of_attributes(data_list: list[dict]):
 
     for item in data_list:
         name = item.get('tag').text.strip()
-        url = f'{base_url}{item.get('value')}'
+        url = f"{base_url}{item.get('value')}"
         values.append(BookCategory(name, url))
 
     # values: list[BookCategory] = [BookCategory(item.get('tag').text.strip(), f'{base_url}{item.get('value')}') for item in data_list]
