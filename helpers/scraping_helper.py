@@ -14,6 +14,12 @@ def find_all_by_class_name(soup: BeautifulSoup, name=None, class_value=None):
     return soup.find_all(name, {"class": class_value})
 
 
+def find_one_by_class_name(soup: BeautifulSoup, name=None, class_value=None):
+    if class_value is None:
+        class_value = ""
+    return soup.find(name, {"class": class_value})
+
+
 def find_all_by_tag_name(
     result_set: ResultSet, name=None
 ) -> list[Tag | NavigableString | None]:
