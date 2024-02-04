@@ -5,14 +5,14 @@ from helpers import scraping_helper as sh
 from models.book_category import BookCategory
 
 base_url: str = "https://www.rokomari.com"
-category_url = "book/categories"
+category_page_url = "book/categories"
 
 book_categories_json_file_path = "book_categories.json"
 books_json_file_path: str = "books.json"
 
 
 def get_book_categories_url_list() -> list[BookCategory]:
-    url = f"{base_url}/{category_url}"
+    url = f"{base_url}/{category_page_url}"
     response = sh.get_http_response(url)
 
     if response.status_code != 200:
