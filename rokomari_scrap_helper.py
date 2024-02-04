@@ -79,11 +79,12 @@ def get_book_categories_containing_url_segment(
     # urls_with_str: list[BookCategory] = df[df["url"].str.contains(url_segment)][
     #     "name"
     # ].tolist()
-    
-    
+
     filtered_data = df[df["url"].str.contains(url_segment)]
-    urls_with_str = [BookCategory(row["name"], row["url"]) for index, row in filtered_data.iterrows()]
-    
+    filtered_rows = filtered_data.iterrows()
+    urls_with_str = [
+        BookCategory(row["name"], row["url"]) for index, row in filtered_rows
+    ]
 
     # print(urls_with_str)
 
@@ -100,9 +101,11 @@ def get_book_categories_not_containing_url_segment(
     # print(urls_without_str)
 
     df = pandas.DataFrame(items)
-    urls_without_str: list[BookCategory] = df[~df["url"].str.contains(url_segment)][
-        "name"
-    ].tolist()
+    filtered_data = df[~df["url"].str.contains(url_segment)]
+    filtered_rows = filtered_data.iterrows()
+    urls_without_str = [
+        BookCategory(row["name"], row["url"]) for index, row in filtered_rows
+    ]
 
     # print(urls_without_str)
 
