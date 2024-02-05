@@ -11,7 +11,7 @@ class Book:
         currentPrice: float,
         imageUrl: str,
         bookUrl: str,
-        category: BookCategory,
+        category: BookCategory = None,
     ):
         self.title = title.strip()
         self.author = author.strip()

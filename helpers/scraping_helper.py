@@ -1,11 +1,9 @@
 import requests
 from bs4 import BeautifulSoup, ResultSet, NavigableString, Tag
 
-from models.book_category import BookCategory
-
 
 def get_http_response(url: str):
-    return requests.get(url, timeout=5)
+    return requests.get(url, timeout=10)
 
 
 def find_all_by_class_name(soup: BeautifulSoup, name=None, class_value=None):
@@ -14,7 +12,9 @@ def find_all_by_class_name(soup: BeautifulSoup, name=None, class_value=None):
     return soup.find_all(name, {"class": class_value})
 
 
-def find_one_by_class_name(soup: BeautifulSoup, name=None, class_value=None):
+def find_one_by_class_names_from_soup(
+    soup: BeautifulSoup, name: str = None, class_value: str = None
+):
     if class_value is None:
         class_value = ""
     return soup.find(name, {"class": class_value})
@@ -27,6 +27,11 @@ def find_all_by_tag_name(
         item.find(name) for item in result_set
     ]
     return tag_list
+
+
+def find_one_by_class_name_from_tag(tag: Tag, class_name: str) -> Tag | None:
+    result_tag = tag.select_one(f".{class_name}")
+    return result_tag
 
 
 def get_value_of_attributes(
