@@ -1,5 +1,6 @@
 import math
 import pandas
+from pandas import DataFrame
 
 from helpers import json_helper as jh
 from helpers import scraping_helper as sh
@@ -71,19 +72,24 @@ def get_value_of_attributes(data_list: list[dict]):
 
 def get_book_categories_containing_url_segment(
     book_category_list: list[BookCategory], url_segment: str
-):
-    items = book_category_list
+):   
+    urls_with_str: list[BookCategory] = []
+    
+    for item in book_category_list:
+        item = BookCategory(item["name"], item["url"])
+        if item.url.__contains__(url_segment):
+            urls_with_str.append(item)
 
     # urls_with_str = [item['url']
     #                     for item in items if url_segment in item['url']]
     # print(urls_with_str)
 
-    df = pandas.DataFrame(items)
-    filtered_data = df[df["url"].str.contains(url_segment)]
-    filtered_rows = filtered_data.iterrows()
-    urls_with_str = [
-        BookCategory(row["name"], row["url"]) for index, row in filtered_rows
-    ]
+    # df: DataFrame = DataFrame(items)
+    # filtered_data = df[df["url"].str.contains(url_segment)]
+    # filtered_rows = filtered_data.iterrows()
+    # urls_with_str = [
+    #     BookCategory(row["name"], row["url"]) for index, row in filtered_rows
+    # ]
 
     # print(urls_with_str)
 
@@ -93,18 +99,23 @@ def get_book_categories_containing_url_segment(
 def get_book_categories_not_containing_url_segment(
     book_category_list: list[BookCategory], url_segment: str
 ):
-    items = book_category_list
+    urls_without_str: list[BookCategory] = []
+    
+    for item in book_category_list:
+        item = BookCategory(item["name"], item["url"])
+        if ~item.url.__contains__(url_segment):
+            urls_without_str.append(item)
 
     # urls_without_str = [item['url']
     #                  for item in items if url_segment not in item['url']]
     # print(urls_without_str)
 
-    df = pandas.DataFrame(items)
-    filtered_data = df[~df["url"].str.contains(url_segment)]
-    filtered_rows = filtered_data.iterrows()
-    urls_without_str = [
-        BookCategory(row["name"], row["url"]) for index, row in filtered_rows
-    ]
+    # df: DataFrame = DataFrame(items)
+    # filtered_data = df[~df["url"].str.contains(url_segment)]
+    # filtered_rows = filtered_data.iterrows()
+    # urls_without_str = [
+    #     BookCategory(row["name"], row["url"]) for index, row in filtered_rows
+    # ]
 
     # print(urls_without_str)
 
