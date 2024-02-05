@@ -53,7 +53,10 @@ def get_book_category_list():
             book_category_json_string, book_categories_json_file_path
         )
     else:
-        book_category_list = jh.json_string_to_data(book_category_json_string)
+        book_category_list = [
+            BookCategory(item["name"], item["url"])
+            for item in jh.json_string_to_data(book_category_json_string)
+        ]
 
     return book_category_list
 
@@ -72,11 +75,10 @@ def get_value_of_attributes(data_list: list[dict]):
 
 def get_book_categories_containing_url_segment(
     book_category_list: list[BookCategory], url_segment: str
-):   
+):
     urls_with_str: list[BookCategory] = []
-    
+
     for item in book_category_list:
-        item = BookCategory(item["name"], item["url"])
         if item.url.__contains__(url_segment):
             urls_with_str.append(item)
 
@@ -100,10 +102,9 @@ def get_book_categories_not_containing_url_segment(
     book_category_list: list[BookCategory], url_segment: str
 ):
     urls_without_str: list[BookCategory] = []
-    
+
     for item in book_category_list:
-        item = BookCategory(item["name"], item["url"])
-        if ~item.url.__contains__(url_segment):
+        if not item.url.__contains__(url_segment):
             urls_without_str.append(item)
 
     # urls_without_str = [item['url']
@@ -246,7 +247,7 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
     book_list: list[Book] = []
 
     print("\n")
-    print("Completed 0.0%", end="\r")
+    print("Completed 0.0%")#, end="\r")
 
     category_count = dynamic_book_category_list.__len__()
 
@@ -280,15 +281,22 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
                             book.category = book_category
                             book_list.append(book)
                         except Exception as ex:
-                            print(
-                                "Error in: Page ", value + 1, " of ", book_category.name
-                            )
+                            # print(
+                            #     "Error in: Page ",
+                            #     value + 1,
+                            #     " of ",
+                            #     book_category.name,
+                            #     " and Book title is: ",
+                            #     book_card_item.text.strip(),
+                            # )
+                            o=0
 
             except Exception as ex:
-                print("Error in: Page ", value + 1, " of ", book_category.name)
+                # print("Error in: Page ", value + 1, " of ", book_category.name)
+                o=0
 
         percentage = round((i / category_count) * 100, 2)
-        print(f"Completed {percentage}%", end="\r")
+        print(f"Completed {percentage}%")#, end="\r")
 
     print("\n")
     return book_list
