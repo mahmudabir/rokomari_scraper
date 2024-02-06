@@ -292,9 +292,14 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
         percentage = round(((i+1) / category_count) * 100, 2)
         print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
         
-        category_wise_book_list_json_string = jh.data_to_json_string(category_wise_book_list)
-        jh.save_json_string_into_file(category_wise_book_list_json_string, f"{book_category.name}_books.json")
-        category_wise_book_list = []
+        try:
+            category_wise_book_list_json_string = jh.data_to_json_string(category_wise_book_list)
+            book_json_file_name_prefix = book_category.name.replace('/', 'and').replace('\\', 'and')
+            jh.save_json_string_into_file(category_wise_book_list_json_string, f"{book_json_file_name_prefix}_books.json")
+            category_wise_book_list = []
+        except Exception as e:
+            category_wise_book_list = []
+
 
     print("\n")
     return book_list
