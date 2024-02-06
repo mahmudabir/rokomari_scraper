@@ -5,6 +5,5 @@
 <ul>
 <li>requests</li>
 <li>bs4</li>
-<li>pandas</li>
 <li>pyinstaller</li>
 </ul>

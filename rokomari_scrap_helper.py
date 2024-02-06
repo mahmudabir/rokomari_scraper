@@ -1,12 +1,9 @@
-import math
-import pandas
-from pandas import DataFrame
+from bs4 import Tag
 
 from helpers import json_helper as jh
 from helpers import scraping_helper as sh
-from models.book_category import BookCategory
 from models.book import Book
-from bs4 import Tag
+from models.book_category import BookCategory
 
 base_url: str = "https://www.rokomari.com"
 category_page_url = "book/categories"
@@ -84,14 +81,6 @@ def get_book_categories_containing_url_segment(
 
     # urls_with_str = [item['url']
     #                     for item in items if url_segment in item['url']]
-    # print(urls_with_str)
-
-    # df: DataFrame = DataFrame(items)
-    # filtered_data = df[df["url"].str.contains(url_segment)]
-    # filtered_rows = filtered_data.iterrows()
-    # urls_with_str = [
-    #     BookCategory(row["name"], row["url"]) for index, row in filtered_rows
-    # ]
 
     # print(urls_with_str)
 
@@ -109,14 +98,6 @@ def get_book_categories_not_containing_url_segment(
 
     # urls_without_str = [item['url']
     #                  for item in items if url_segment not in item['url']]
-    # print(urls_without_str)
-
-    # df: DataFrame = DataFrame(items)
-    # filtered_data = df[~df["url"].str.contains(url_segment)]
-    # filtered_rows = filtered_data.iterrows()
-    # urls_without_str = [
-    #     BookCategory(row["name"], row["url"]) for index, row in filtered_rows
-    # ]
 
     # print(urls_without_str)
 
