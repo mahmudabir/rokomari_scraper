@@ -294,7 +294,7 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
         
         try:
             category_wise_book_list_json_string = jh.data_to_json_string(category_wise_book_list)
-            book_json_file_name_prefix = book_category.name.replace('/', 'and').replace('\\', 'and')
+            book_json_file_name_prefix = book_category.name.replace('/', ' or ').replace('\\', ' or ')
             jh.save_json_string_into_file(category_wise_book_list_json_string, f"{book_json_file_name_prefix}_books.json")
             category_wise_book_list = []
         except Exception as e:
