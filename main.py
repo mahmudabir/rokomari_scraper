@@ -36,8 +36,8 @@ if __name__ == "__main__":
     print("\n")
     main()
 
-    try:
-        print("\nPress any key to continue...")
-        ch.wait_for_key()
-    except Exception as ex:
-        pass
+    # try:
+    #     print("\nPress any key to continue...")
+    #     ch.wait_for_key()
+    # except Exception as ex:
+    #     pass
