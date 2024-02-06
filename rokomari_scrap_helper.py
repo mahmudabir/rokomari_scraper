@@ -229,15 +229,19 @@ def generate_book_object_from_tag(book_card_item: Tag) -> Book:
 def get_max_page_number(book_category: BookCategory) -> int:
     pagination_response = sh.get_http_response(book_category.url)
     if pagination_response.status_code == 200:
-        pagination_soup = sh.parse_html_content_as_string(pagination_response.text)
-        pagination_element = sh.find_one_by_class_names_from_soup(
-            pagination_soup, "div", "pagination"
-        )
+        
+        try:
+            pagination_soup = sh.parse_html_content_as_string(pagination_response.text)
+            pagination_element = sh.find_one_by_class_names_from_soup(
+                pagination_soup, "div", "pagination"
+            )
 
-        pagination_list = pagination_element.text.strip().split()
-        numbers = [int(x) for x in pagination_list if x.isdigit()]
-        largest_page_number = max(numbers)
-        return largest_page_number
+            pagination_list = pagination_element.text.strip().split()
+            numbers = [int(x) for x in pagination_list if x.isdigit()]
+            max_page_number = max(numbers)
+            return max_page_number
+        except Exception as e:
+            return 0
     else:
         return 0
 
