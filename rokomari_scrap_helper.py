@@ -247,7 +247,7 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
     book_list: list[Book] = []
 
     print("\n")
-    print("Completed 0.0%", end="\r")
+    print("Completed 0.0% || Total Books Count: 0", end="\r")
 
     category_count = dynamic_book_category_list.__len__()
 
@@ -296,7 +296,7 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
                 o=0
 
         percentage = round(((i+1) / category_count) * 100, 2)
-        print(f"Completed {percentage}%", end="\r")
+        print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
 
     print("\n")
     return book_list
