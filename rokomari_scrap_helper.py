@@ -255,6 +255,8 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
         book_category = dynamic_book_category_list[i]
         max_page_number = get_max_page_number(book_category)
 
+        category_wise_book_list: list[Book] = []
+        
         for value in range(max_page_number):
 
             try:
@@ -280,6 +282,7 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
                             book = generate_book_object_from_tag(book_card_item)
                             book.category = book_category
                             book_list.append(book)
+                            category_wise_book_list.append(book)
                         except Exception as ex:
                             # print(
                             #     "Error in: Page ",
@@ -303,6 +306,10 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
 
         percentage = round(((i+1) / category_count) * 100, 2)
         print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
+        
+        book_list_json_string = jh.data_to_json_string(book_list)
+        jh.save_json_string_into_file(book_list_json_string, f"{book_category.name_}books.json")
+        category_wise_book_list = []
 
     print("\n")
     return book_list
