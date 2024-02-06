@@ -1,9 +1,15 @@
+import time
+
 import requests
-from bs4 import BeautifulSoup, ResultSet, NavigableString, Tag
+from bs4 import BeautifulSoup, NavigableString, ResultSet, Tag
 
 
 def get_http_response(url: str):
-    return requests.get(url, timeout=10)
+    while True:
+        try:
+            return requests.get(url, timeout=10)
+        except Exception as ex:
+            time.sleep(5)
 
 
 def find_all_by_class_name(soup: BeautifulSoup, name=None, class_value=None):
