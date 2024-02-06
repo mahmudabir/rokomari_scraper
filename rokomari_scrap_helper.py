@@ -290,10 +290,16 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
                             #     book_card_item.text.strip(),
                             # )
                             o=0
+                        
+                        percentage = round(((i+1) / category_count) * 100, 2)
+                        print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
 
             except Exception as ex:
                 # print("Error in: Page ", value + 1, " of ", book_category.name)
                 o=0
+                
+            percentage = round(((i+1) / category_count) * 100, 2)
+            print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
 
         percentage = round(((i+1) / category_count) * 100, 2)
         print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
