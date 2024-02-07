@@ -26,8 +26,9 @@ def main():
     print(f"Books Count: {book_list.__len__()}")
     # print(f"Books: \n {jh.data_to_json_string(book_list)}")
 
-    book_list_json_string = jh.data_to_json_string(book_list)
-    fh.save_string_into_file(book_list_json_string, rsh.books_json_file_path)
+    fh.save_string_into_file(
+        jh.data_to_json_string(book_list), rsh.books_json_file_path
+    )
     print(f"Books list saved into {rsh.books_json_file_path} file.")
 
     books_csv_file_path = "books.csv"
