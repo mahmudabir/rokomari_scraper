@@ -76,12 +76,15 @@ def get_book_categories_containing_url_segment(
 ):
     urls_with_str: list[BookCategory] = []
 
-    for item in book_category_list:
-        if item.url.__contains__(url_segment):
-            urls_with_str.append(item)
+    # for item in book_category_list:
+    #     if item.url.__contains__(url_segment):
+    #         urls_with_str.append(item)
 
-    # urls_with_str = [item['url']
-    #                     for item in items if url_segment in item['url']]
+    urls_with_str = [
+        BookCategory(item.name, item.url)
+        for item in book_category_list
+        if item.url.__contains__(url_segment)
+    ]
 
     # print(urls_with_str)
 
@@ -93,12 +96,15 @@ def get_book_categories_not_containing_url_segment(
 ):
     urls_without_str: list[BookCategory] = []
 
-    for item in book_category_list:
-        if not item.url.__contains__(url_segment):
-            urls_without_str.append(item)
+    # for item in book_category_list:
+    #     if not item.url.__contains__(url_segment):
+    #         urls_without_str.append(item)
 
-    # urls_without_str = [item['url']
-    #                  for item in items if url_segment not in item['url']]
+    urls_without_str = [
+        BookCategory(item.name, item.url)
+        for item in book_category_list
+        if not item.url.__contains__(url_segment)
+    ]
 
     # print(urls_without_str)
 
