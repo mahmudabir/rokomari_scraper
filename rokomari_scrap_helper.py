@@ -1,5 +1,6 @@
 from bs4 import Tag
 
+from helpers import file_helper as fh
 from helpers import json_helper as jh
 from helpers import scraping_helper as sh
 from models.book import Book
@@ -34,7 +35,7 @@ def get_book_categories_url_list() -> list[BookCategory]:
 
 
 def get_book_category_list():
-    book_category_json_string: str | None = jh.read_file_as_string(
+    book_category_json_string: str | None = fh.read_file_as_string(
         book_categories_json_file_path
     )
 
@@ -46,7 +47,7 @@ def get_book_category_list():
     ):
         book_category_list = get_book_categories_url_list()
         book_category_json_string = jh.data_to_json_string(book_category_list)
-        jh.save_json_string_into_file(
+        fh.save_string_into_file(
             book_category_json_string, book_categories_json_file_path
         )
     else:
@@ -210,7 +211,7 @@ def generate_book_object_from_tag(book_card_item: Tag) -> Book:
 def get_max_page_number(book_category: BookCategory) -> int:
     pagination_response = sh.get_http_response(book_category.url)
     if pagination_response.status_code == 200:
-        
+
         try:
             pagination_soup = sh.parse_html_content_as_string(pagination_response.text)
             pagination_element = sh.find_one_by_class_names_from_soup(
@@ -241,7 +242,7 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
         max_page_number = get_max_page_number(book_category)
 
         category_wise_book_list: list[Book] = []
-        
+
         for value in range(max_page_number):
 
             try:
@@ -277,29 +278,44 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
                             #     " and Book title is: ",
                             #     book_card_item.text.strip(),
                             # )
-                            o=0
-                        
-                        percentage = round(((i+1) / category_count) * 100, 2)
-                        print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
+                            o = 0
+
+                        percentage = round(((i + 1) / category_count) * 100, 2)
+                        print(
+                            f"Completed {percentage}% || Total Books Count: {book_list.__len__()}",
+                            end="\r",
+                        )
 
             except Exception as ex:
                 # print("Error in: Page ", value + 1, " of ", book_category.name)
-                o=0
-                
-            percentage = round(((i+1) / category_count) * 100, 2)
-            print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
+                o = 0
 
-        percentage = round(((i+1) / category_count) * 100, 2)
-        print(f"Completed {percentage}% || Total Books Count: {book_list.__len__()}", end="\r")
-        
+            percentage = round(((i + 1) / category_count) * 100, 2)
+            print(
+                f"Completed {percentage}% || Total Books Count: {book_list.__len__()}",
+                end="\r",
+            )
+
+        percentage = round(((i + 1) / category_count) * 100, 2)
+        print(
+            f"Completed {percentage}% || Total Books Count: {book_list.__len__()}",
+            end="\r",
+        )
+
         try:
-            category_wise_book_list_json_string = jh.data_to_json_string(category_wise_book_list)
-            book_json_file_name_prefix = book_category.name.replace('/', ' or ').replace('\\', ' or ')
-            jh.save_json_string_into_file(category_wise_book_list_json_string, f"{book_json_file_name_prefix}_books.json")
+            category_wise_book_list_json_string = jh.data_to_json_string(
+                category_wise_book_list
+            )
+            book_json_file_name_prefix = book_category.name.replace(
+                "/", " or "
+            ).replace("\\", " or ")
+            fh.save_string_into_file(
+                category_wise_book_list_json_string,
+                f"{book_json_file_name_prefix}_books.json",
+            )
             category_wise_book_list = []
         except Exception as e:
             category_wise_book_list = []
-
 
     print("\n")
     return book_list
