@@ -1,5 +1,6 @@
 from bs4 import Tag
 
+from helpers import csv_helper as ch
 from helpers import file_helper as fh
 from helpers import json_helper as jh
 from helpers import scraping_helper as sh
@@ -272,7 +273,7 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
 
                         try:
                             book = generate_book_object_from_tag(book_card_item)
-                            book.category = book_category
+                            book.category = book_category.name.strip()
                             book_list.append(book)
                             category_wise_book_list.append(book)
                         except Exception as ex:
@@ -312,13 +313,18 @@ def get_all_books_with_dynamic_category(dynamic_book_category_list: list[BookCat
             category_wise_book_list_json_string = jh.data_to_json_string(
                 category_wise_book_list
             )
-            book_json_file_name_prefix = book_category.name.replace(
-                "/", " or "
-            ).replace("\\", " or ")
+            book_file_name_prefix = book_category.name.replace("/", " or ").replace(
+                "\\", " or "
+            )
             fh.save_string_into_file(
                 category_wise_book_list_json_string,
-                f"{book_json_file_name_prefix}_books.json",
+                f"{book_file_name_prefix}_books.json",
             )
+
+            ch.list_to_csv_file(
+                category_wise_book_list, f"{book_file_name_prefix}_books.csv"
+            )
+
             category_wise_book_list = []
         except Exception as e:
             category_wise_book_list = []
